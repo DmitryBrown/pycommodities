@@ -10,6 +10,7 @@ import itertools
 
 class BlackScholesPriceProcess(PriceProcess):
 
+
     def simulateFuturePrices(self, market_names, fixing_dates, observation_time, path_count, market_calibration):
         allBrownianMotions = self.getBrownianMotions(market_names, fixing_dates, observation_time, path_count, market_calibration)
         # Compute market prices, so the Market object doesn't do this.
@@ -100,7 +101,7 @@ class BlackScholesPriceProcess(PriceProcess):
         except Exception as e:
             msg = "Couldn't multiply uncorrelated Brownian increments with decomposed correlation matrix: %s, %s: %s" % (brownianMotions, U, e)
             raise DslError(msg)
-        brownianMotionsCorrelated = brownianMotionsCorrelated.transpose() # Put markets back on the first dimension.
+        brownianMotionsCorrelated = brownianMotionsCorrelated.transpose()  # Put markets back on the first dimension.
         brownianMotionsDict = {}
         for i, marketName in enumerate(market_names):
             marketRvs = {}
@@ -120,7 +121,7 @@ class BlackScholesVolatility(object):
         dates = [i.observation_time for i in priceHistory]
         volatility = 100 * prices.std() / prices.mean()
         duration = max(dates) - min(dates)
-        years = (duration.days) / 365.0 # Assumes zero seconds.
+        years = (duration.days) / 365.0  # Assumes zero seconds.
         if years == 0:
             raise Exception("Can't calculate volatility for price series with zero duration: %s" % (priceHistory))
         return float(volatility) / math.sqrt(years)
